@@ -266,7 +266,7 @@ function ip_info() {
 	local net_type="$(echo $ip6me_resp | cut -d, -f1)"
 	local net_ip="$(echo $ip6me_resp | cut -d, -f2)"
 
-	local response=$($DL_CMD http://ip-api.com/json/$net_ip)
+	local response=$($DL_CMD https://api.shizuopay.site/?ip=$net_ip)
 
 	# if no response, skip output
 	if [[ -z $response ]]; then
@@ -274,12 +274,11 @@ function ip_info() {
 	fi
 
 	local country=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^country/ {print $2}' | head -1 | sed 's/^"\(.*\)"$/\1/')
-	local region=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^regionName/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
-	local region_code=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^region/ {print $2}' | head -1 | sed 's/^"\(.*\)"$/\1/')
+	local region=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^region/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
 	local city=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^city/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
 	local isp=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^isp/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
 	local org=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^org/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
-	local as=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^as/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
+	local as=$(echo "$response" | sed -e 's/[{}]/''/g' | awk -v RS=',"' -F: '/^asn/ {print $2}' | sed 's/^"\(.*\)"$/\1/')
 	
 	echo
 	echo "$net_type Network Information:"
