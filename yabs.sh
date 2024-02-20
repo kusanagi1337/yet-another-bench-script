@@ -266,7 +266,7 @@ function ip_info() {
 	local net_type="$(echo $ip6me_resp | cut -d, -f1)"
 	local net_ip="$(echo $ip6me_resp | cut -d, -f2)"
 
-	local response=$($DL_CMD https://api.shizuopay.site/?ip=$net_ip)
+	local response=$($DL_CMD https://api.shizuopay.site/ipinfo/?ip=$net_ip)
 
 	# if no response, skip output
 	if [[ -z $response ]]; then
@@ -298,13 +298,13 @@ function ip_info() {
 		echo "Host       : $org"
 	fi
 	if [[ -n "$city" && -n "$region" ]]; then
-		echo "Location   : $city, $region ($region_code)"
+		echo "Location   : $city, $region"
 	fi
 	if [[ -n "$country" ]]; then
 		echo "Country    : $country"
 	fi 
 
-	[[ ! -z $JSON ]] && JSON_RESULT+=',"ip_info":{"protocol":"'$net_type'","isp":"'$isp'","asn":"'$as'","org":"'$org'","city":"'$city'","region":"'$region'","region_code":"'$region_code'","country":"'$country'"}'
+	[[ ! -z $JSON ]] && JSON_RESULT+=',"ip_info":{"protocol":"'$net_type'","isp":"'$isp'","asn":"'$as'","org":"'$org'","city":"'$city'","region":"'$region'","country":"'$country'"}'
 }
 
 if [ ! -z $JSON ]; then
